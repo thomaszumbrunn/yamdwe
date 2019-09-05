@@ -88,7 +88,7 @@ def convert_children(node, context):
 
 @visitor.when(Article)
 def convert(node, context, trailing_newline):
-    return convert_children(node, context)
+    return "====== " + node.caption + " ======\n" + convert_children(node, context)
 
 @visitor.when(Paragraph)
 def convert(node, context, trailing_newline):
@@ -242,7 +242,7 @@ def convert(tag, context, trailing_newline):
     simple_tagitems = {
         "tt" : ("''", "''"),
         "ref" : ("((","))"), # references converted to footnotes
-        "code" : ("<code>","</code>"),
+        "code" : ("''%%","%%''"),
         "del": ("<del>", "</del>"),
     }
     if tag.tagname in simple_tagitems:

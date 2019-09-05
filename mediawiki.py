@@ -139,9 +139,9 @@ class Importer(object):
         media_namespace = {'*' : 'Media', 'canonical' : 'Media'}
         # search for the File namespace
         for namespace in namespaces:
-            if namespace.get('canonical', None) == 'File':
+            if namespace.get('canonical', None) == '':
                 file_namespace = namespace
-            elif namespace.get('canonical', None) == 'Media':
+            elif namespace.get('canonical', None) == '':
                 media_namespace = namespace
         # alias list starts with the file & media namespace canonical values, and the media "real" value
         aliases_result = [ file_namespace['canonical'], media_namespace['canonical'], media_namespace['*'] ]

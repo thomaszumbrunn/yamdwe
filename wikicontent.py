@@ -14,7 +14,7 @@ import pdb
 
 # Regex to match any known File: namespace (can be updated based on the mediawiki installation language)
 mw_file_namespace_aliases = re.compile("^(Image|File):", re.IGNORECASE)
-dw_file_namespace = "File:"
+dw_file_namespace = ""
 
 def set_file_namespaces(canonical_alias, aliases):
     """
@@ -26,7 +26,7 @@ def set_file_namespaces(canonical_alias, aliases):
     """
     global mw_file_namespace_aliases
     global dw_file_namespace
-    dw_file_namespace = canonical_alias + ":"
+    # dw_file_namespace = canonical_alias + ":"
     mw_file_namespace_aliases = re.compile("^(%s):" % "|".join(aliases), re.IGNORECASE)
 
 def is_file_namespace(target):
@@ -170,7 +170,7 @@ def convert(link, context, trailing_newline):
     postalign = " " if link.align in [ "center", "left" ] else ""
     target = canonicalise_file_namespace(link.target)
     target = convert_internal_link(target)
-    return "{{%s%s%s%s}}" % (prealign, target, suffix, postalign)
+    return "{{%s:%s%s%s}}" % (prealign, target, suffix, postalign)
 
 @visitor.when(ArticleLink)
 def convert(link, context, trailing_newline):
@@ -192,7 +192,7 @@ def convert(link, context, trailing_newline):
         filename = dokuwiki.make_dokuwiki_pagename(canonicalise_file_namespace(link.target))
         caption = convert_children(link, context).strip()
         if len(caption) > 0:
-            return u"{{%s%s}}" % (filename, caption)
+            return u"{{%s|%s}}" % (filename, caption)
         else:
             return u"{{%s}}" % filename
 

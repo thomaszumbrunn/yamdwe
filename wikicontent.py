@@ -10,6 +10,7 @@ from __future__ import print_function, unicode_literals, absolute_import, divisi
 import re, string, dokuwiki, visitor
 from mwlib.parser import *
 from mwlib import uparser
+import pdb
 
 # Regex to match any known File: namespace (can be updated based on the mediawiki installation language)
 mw_file_namespace_aliases = re.compile("^(Image|File):", re.IGNORECASE)
@@ -259,6 +260,12 @@ def convert(tag, context, trailing_newline):
             child.in_gallery = True
     elif tag.tagname == "references":
         print("WARNING: <references> tag has no equivalent in Dokuwiki, ignoring...")
+    # support for syntax highlighting extension
+    elif tag.tagname == "source":
+        if tag.vlist is None:
+            return "<code>" + convert_children(tag, context) + "</code>"
+        elif tag.vlist.has_key("lang"):
+            return "<code " + tag.vlist["lang"] + ">" + convert_children(tag, context) + "</code>"
 
     return convert_children(tag, context)
 

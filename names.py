@@ -28,6 +28,7 @@ def clean_id(name, preserve_case=False):
         result = result.lower()
     while "__" in result:
         result = result.replace("__", "_") # this is a hack, unsure why regex doesn't catch it
+    result = result.rstrip('_')
     return result
 
 def clean_user(name):
